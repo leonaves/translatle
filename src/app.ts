@@ -84,6 +84,7 @@ export class App {
       score: this.engine.getScore(),
       totalTime: this.engine.getTotalTime(),
       answers: state.answers,
+      rounds: state.rounds,
     });
   }
 

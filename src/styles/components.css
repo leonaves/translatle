@@ -209,19 +209,47 @@
 }
 
 .option-button--correct {
-  background-color: var(--color-correct-bg);
-  color: var(--color-correct);
+  background-color: var(--color-correct);
+  color: var(--color-white);
   border-color: var(--color-correct);
+  transform: scale(1.05);
 }
 
 .option-button--incorrect {
-  background-color: var(--color-incorrect-bg);
-  color: var(--color-incorrect);
+  background-color: var(--color-incorrect);
+  color: var(--color-white);
   border-color: var(--color-incorrect);
+  animation: shake 0.3s ease-out;
 }
 
 .option-button--revealed {
-  opacity: 0.5;
+  opacity: 0.4;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Feedback Banner */
+.feedback-banner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: var(--spacing-lg) var(--spacing-2xl);
+  border-radius: var(--radius-lg);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  z-index: 100;
+  animation: pop 0.3s ease-out;
+}
+
+.feedback-banner--correct {
+  background-color: var(--color-correct);
+  color: var(--color-white);
+}
+
+.feedback-banner--incorrect {
+  background-color: var(--color-incorrect);
+  color: var(--color-white);
 }
 
 /* Next Button */
@@ -301,9 +329,93 @@
   transform: scale(1.02);
 }
 
-.result__next-game {
+/* Countdown */
+.result__countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.result__countdown-label {
   font-size: 0.875rem;
   color: var(--color-gray-400);
+}
+
+.result__countdown-time {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-salmon);
+}
+
+/* Review Section */
+.review {
+  width: 100%;
+  max-width: 400px;
+  margin-top: var(--spacing-lg);
+}
+
+.review__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-gray-400);
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+}
+
+.review__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.review-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.review-item--correct {
+  border-left: 3px solid var(--color-correct);
+}
+
+.review-item--incorrect {
+  border-left: 3px solid var(--color-incorrect);
+}
+
+.review-item__emoji {
+  font-size: 1.5rem;
+}
+
+.review-item__details {
+  flex: 1;
+  min-width: 0;
+}
+
+.review-item__label {
+  font-size: 0.875rem;
+  color: var(--color-white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.review-item__answer {
+  font-size: 0.75rem;
+  color: var(--color-gray-400);
+  margin-top: 2px;
+}
+
+.review-item--correct .review-item__answer {
+  color: var(--color-correct);
+}
+
+.review-item--incorrect .review-item__answer {
+  color: var(--color-incorrect);
 }
 
 /* Toast */

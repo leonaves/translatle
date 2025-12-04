@@ -44,7 +44,7 @@ export function formatTime(ms: number): string {
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
-export function getTimeUntilMidnight(): string {
+export function getTimeUntilMidnight(): { hours: number; minutes: number; seconds: number } {
   const now = new Date();
   const midnight = new Date(now);
   midnight.setHours(24, 0, 0, 0);
@@ -52,6 +52,11 @@ export function getTimeUntilMidnight(): string {
   const diff = midnight.getTime() - now.getTime();
   const hours = Math.floor(diff / (1000 * 60 * 60));
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-  return `${hours}h ${minutes}m`;
+  return { hours, minutes, seconds };
+}
+
+export function formatCountdown(time: { hours: number; minutes: number; seconds: number }): string {
+  return `${time.hours.toString().padStart(2, '0')}:${time.minutes.toString().padStart(2, '0')}:${time.seconds.toString().padStart(2, '0')}`;
 }

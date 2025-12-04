@@ -1,24 +1,51 @@
-import type { Answer } from '../types/game';
-import { formatTime, getTimeUntilMidnight } from '../utils/time';
+import type { Answer, Round } from '../types/game';
+import { formatTime, getTimeUntilMidnight, formatCountdown } from '../utils/time';
 import { shareResults } from '../utils/share';
+import { LANGUAGE_NAMES } from '../data/languages';
 
 interface ResultScreenOptions {
   dayNumber: number;
   score: number;
   totalTime: number;
   answers: Answer[];
+  rounds: Round[];
 }
 
 export function createResultScreen(options: ResultScreenOptions): HTMLElement {
-  const { dayNumber, score, totalTime, answers } = options;
+  const { dayNumber, score, totalTime, answers, rounds } = options;
 
   const container = document.createElement('div');
   container.className = 'result';
 
   const grid = answers.map((a) => (a.correct ? '🟩' : '🟥')).join('');
 
+  // Build review HTML
+  const reviewHtml = rounds
+    .map((round, i) => {
+      const answer = answers[i];
+      const isCorrect = answer?.correct;
+      const selectedLang = answer?.selectedLanguage;
+      const correctLang = round.correctLanguage;
+
+      return `
+      <div class="review-item ${isCorrect ? 'review-item--correct' : 'review-item--incorrect'}">
+        <div class="review-item__emoji">${round.emoji}</div>
+        <div class="review-item__details">
+          <div class="review-item__label">"${round.label}"</div>
+          <div class="review-item__answer">
+            ${isCorrect ? '✓' : '✗'}
+            ${isCorrect ? LANGUAGE_NAMES[correctLang] : `${LANGUAGE_NAMES[selectedLang]} → ${LANGUAGE_NAMES[correctLang]}`}
+          </div>
+        </div>
+      </div>
+    `;
+    })
+    .join('');
+
+  const time = getTimeUntilMidnight();
+
   container.innerHTML = `
-    <h1 class="result__title">Game Complete!</h1>
+    <h1 class="result__title">${score === 5 ? 'Perfect! 🎉' : score >= 3 ? 'Nice! 👍' : 'Game Complete!'}</h1>
 
     <div class="result__score">
       <span class="result__score-value">${score}/5</span>
@@ -38,7 +65,17 @@ export function createResultScreen(options: ResultScreenOptions): HTMLElement {
       Share Results
     </button>
 
-    <p class="result__next-game">Next game in ${getTimeUntilMidnight()}</p>
+    <div class="result__countdown">
+      <span class="result__countdown-label">Next game in</span>
+      <span class="result__countdown-time">${formatCountdown(time)}</span>
+    </div>
+
+    <div class="review">
+      <h2 class="review__title">Review Answers</h2>
+      <div class="review__list">
+        ${reviewHtml}
+      </div>
+    </div>
   `;
 
   // Toast element
@@ -47,6 +84,7 @@ export function createResultScreen(options: ResultScreenOptions): HTMLElement {
   toast.textContent = 'Copied to clipboard!';
   container.appendChild(toast);
 
+  // Share button handler
   container
     .querySelector('.share-button')!
     .addEventListener('click', async () => {
@@ -58,6 +96,13 @@ export function createResultScreen(options: ResultScreenOptions): HTMLElement {
         }, 2000);
       }
     });
+
+  // Live countdown timer
+  const countdownEl = container.querySelector('.result__countdown-time')!;
+  setInterval(() => {
+    const newTime = getTimeUntilMidnight();
+    countdownEl.textContent = formatCountdown(newTime);
+  }, 1000);
 
   return container;
 }

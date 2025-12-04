@@ -3,6 +3,7 @@ import { createProgressBar } from './ProgressBar';
 import { createTimer, updateTimer } from './Timer';
 import { createRoundDisplay } from './RoundDisplay';
 import { createAnswerOptions, revealAnswer } from './AnswerOptions';
+import { LANGUAGE_NAMES } from '../data/languages';
 
 interface GameScreenOptions {
   state: GameState;
@@ -51,9 +52,23 @@ export function createGameScreen(options: GameScreenOptions): HTMLElement {
   );
   container.appendChild(answerOptions);
 
-  // If answered, reveal the answer and show next button
+  // If answered, reveal the answer and show feedback + next button
   if (isAnswered) {
     revealAnswer(answerOptions, round.correctLanguage, answer.selectedLanguage);
+
+    // Feedback banner
+    const feedback = document.createElement('div');
+    feedback.className = `feedback-banner ${answer.correct ? 'feedback-banner--correct' : 'feedback-banner--incorrect'}`;
+    feedback.innerHTML = answer.correct
+      ? `✓ Correct!`
+      : `✗ It was ${LANGUAGE_NAMES[round.correctLanguage]}`;
+    container.appendChild(feedback);
+
+    // Auto-hide feedback after delay
+    setTimeout(() => {
+      feedback.style.opacity = '0';
+      feedback.style.transition = 'opacity 0.3s';
+    }, 1500);
 
     const nextButton = document.createElement('button');
     nextButton.className = 'next-button';
