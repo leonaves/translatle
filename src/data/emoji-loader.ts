@@ -15,8 +15,9 @@ export async function loadLanguageData(
   }
 
   // Dynamic import from emojibase-data
-  const data = (await import(`emojibase-data/${locale}/data.json`))
-    .default as Emoji[];
+  const data = (
+    await import(/* @vite-ignore */ `emojibase-data/${locale}/data.json`)
+  ).default as Emoji[];
   const emojiMap = new Map(data.map((e) => [e.hexcode, e]));
   languageCache.set(locale, emojiMap);
   return emojiMap;
