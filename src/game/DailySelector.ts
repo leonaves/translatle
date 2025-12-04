@@ -4,7 +4,10 @@ import { getCuratedEmojis, getEmojiLabel } from '../data/emoji-loader';
 import type { Round } from '../types/game';
 import type { CuratedEmoji } from '../types/emoji';
 
-// Start date: December 4, 2024
+// Start date: December 4, 2025 (Day 1)
+const START_YEAR = 2025;
+const START_MONTH = 11; // December (0-indexed)
+const START_DAY = 4;
 
 export function getDayNumber(): number {
   const now = new Date();
@@ -16,16 +19,18 @@ export function getDayNumber(): number {
     0,
     0
   );
-  const utcStart = Date.UTC(2024, 11, 4, 0, 0, 0); // December is month 11
+  const utcStart = Date.UTC(START_YEAR, START_MONTH, START_DAY, 0, 0, 0);
 
   const diffMs = utcNow - utcStart;
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-  // Allow negative days (past dates) to wrap around
+  // Day 1 is the first day, so add 1
+  // Allow wrap around for negative days or overflow
   const emojis = getCuratedEmojis();
   const maxDays = Math.floor(emojis.length / 5);
 
-  return ((diffDays % maxDays) + maxDays) % maxDays;
+  const wrappedDay = ((diffDays % maxDays) + maxDays) % maxDays;
+  return wrappedDay + 1; // 1-indexed (Day 1, Day 2, etc.)
 }
 
 export function selectDailyEmojis(dayNumber: number): CuratedEmoji[] {
