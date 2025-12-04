@@ -1,5 +1,6 @@
 import type { GameState, Answer, Round } from '../types/game';
 import { getDayNumber, generateDailyRounds } from './DailySelector';
+import { getEmojiLabel } from '../data/emoji-loader';
 import {
   loadGameState,
   saveGameState,
@@ -107,7 +108,12 @@ export class GameEngine {
     if (this.state.currentRound >= this.state.rounds.length) return;
 
     const round = this.state.rounds[this.state.currentRound];
-    const correct = languageCode === round.correctLanguage;
+
+    // Check if the selected language has the same label as displayed
+    // This handles cases where the word is identical across languages (e.g., "pizza")
+    const selectedLabel = getEmojiLabel(round.hexcode, languageCode);
+    const correct = selectedLabel?.toLowerCase() === round.label.toLowerCase();
+
     const timeMs = this.roundStartTime ? Date.now() - this.roundStartTime : 0;
 
     const answer: Answer = {
