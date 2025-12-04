@@ -20,11 +20,8 @@ export class App {
     this.timer = new GameTimer((elapsed) => this.onTimerTick(elapsed));
   }
 
-  async initialize(): Promise<void> {
-    // Show loading state
-    this.container.innerHTML = '<div class="splash"><p>Loading...</p></div>';
-
-    await this.engine.initialize();
+  initialize(): void {
+    this.engine.initialize();
 
     // Subscribe to state changes
     this.engine.subscribe((state) => this.render(state));

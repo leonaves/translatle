@@ -1,16 +1,18 @@
 import { App } from './app';
 
-async function main() {
+function main() {
   const container = document.getElementById('app');
   if (!container) {
     throw new Error('App container not found');
   }
 
   const app = new App(container);
-  await app.initialize();
+  app.initialize();
 }
 
-main().catch((error) => {
+try {
+  main();
+} catch (error) {
   console.error('Failed to initialize app:', error);
   const container = document.getElementById('app');
   if (container) {
@@ -22,4 +24,4 @@ main().catch((error) => {
       </div>
     `;
   }
-});
+}

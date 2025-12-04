@@ -31,14 +31,14 @@ export class GameEngine {
     };
   }
 
-  async initialize(): Promise<void> {
+  initialize(): void {
     const dayNumber = getDayNumber();
     const saved = loadGameState();
 
     // Check if we have saved state for today
     if (saved && saved.dayNumber === dayNumber) {
       // Generate rounds first to restore state properly
-      const rounds = await generateDailyRounds(dayNumber);
+      const rounds = generateDailyRounds(dayNumber);
 
       this.state = {
         dayNumber,
@@ -57,7 +57,7 @@ export class GameEngine {
     } else {
       // New day or no saved state
       clearGameState();
-      const rounds = await generateDailyRounds(dayNumber);
+      const rounds = generateDailyRounds(dayNumber);
       this.state = {
         ...this.getDefaultState(),
         rounds,

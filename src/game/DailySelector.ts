@@ -56,7 +56,7 @@ export function selectLanguageOptions(
   return seededShuffle(options, random);
 }
 
-export async function generateDailyRounds(dayNumber: number): Promise<Round[]> {
+export function generateDailyRounds(dayNumber: number): Round[] {
   const emojis = selectDailyEmojis(dayNumber);
   const random = createSeededRandom(dayNumber + 1000); // Different seed for languages
 
@@ -71,10 +71,23 @@ export async function generateDailyRounds(dayNumber: number): Promise<Round[]> {
     const correctLanguage = shuffledLangs[0];
 
     // Get the label in the target language
-    const label = await getEmojiLabel(emoji.hexcode, correctLanguage);
+    const label = getEmojiLabel(emoji.hexcode, correctLanguage);
 
     if (!label) {
-      // Fallback if translation not found
+      // Fallback if translation not found - try next language
+      for (const lang of shuffledLangs.slice(1)) {
+        const fallbackLabel = getEmojiLabel(emoji.hexcode, lang);
+        if (fallbackLabel) {
+          rounds.push({
+            emoji: emoji.emoji,
+            hexcode: emoji.hexcode,
+            correctLanguage: lang,
+            label: fallbackLabel,
+            options: selectLanguageOptions(lang, random),
+          });
+          break;
+        }
+      }
       continue;
     }
 

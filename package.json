@@ -13,6 +13,8 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "build:emojis": "tsx scripts/build-emoji-list.ts",
+    "build:data": "tsx scripts/build-language-data.ts",
+    "build:all-data": "npm run build:emojis && npm run build:data",
     "review:emojis": "tsx scripts/review-emojis.ts",
     "deploy": "npm run build && wrangler pages deploy dist --project-name=translatle"
   },
