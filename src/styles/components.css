@@ -336,6 +336,22 @@
   transform: scale(1.02);
 }
 
+/* Branding */
+.result__branding {
+  font-size: 0.875rem;
+  color: var(--color-gray-400);
+}
+
+.result__branding a {
+  color: var(--color-salmon);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.result__branding a:hover {
+  text-decoration: underline;
+}
+
 /* Countdown */
 .result__countdown {
   display: flex;

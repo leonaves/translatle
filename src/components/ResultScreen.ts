@@ -65,6 +65,8 @@ export function createResultScreen(options: ResultScreenOptions): HTMLElement {
       Share Results
     </button>
 
+    <p class="result__branding">Brought to you by <a href="https://lokalise.com" target="_blank" rel="noopener noreferrer">Lokalise</a></p>
+
     <div class="result__countdown">
       <span class="result__countdown-label">Next game in</span>
       <span class="result__countdown-time">${formatCountdown(time)}</span>
