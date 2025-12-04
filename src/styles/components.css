@@ -229,17 +229,13 @@
 
 /* Feedback Banner */
 .feedback-banner {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: var(--spacing-lg) var(--spacing-2xl);
-  border-radius: var(--radius-lg);
-  font-size: 1.5rem;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-size: 1.25rem;
   font-weight: 700;
   text-align: center;
-  z-index: 100;
   animation: pop 0.3s ease-out;
+  margin-top: var(--spacing-md);
 }
 
 .feedback-banner--correct {
@@ -252,6 +248,18 @@
   color: var(--color-white);
 }
 
+/* Game Bottom Section */
+.game__bottom {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.game__bottom-placeholder {
+  height: 120px;
+}
+
 /* Next Button */
 .next-button {
   background-color: var(--color-salmon);
@@ -260,7 +268,6 @@
   font-weight: 600;
   padding: var(--spacing-md);
   border-radius: var(--radius-md);
-  margin-top: var(--spacing-md);
 }
 
 .next-button:hover {

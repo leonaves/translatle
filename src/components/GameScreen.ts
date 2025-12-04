@@ -52,7 +52,10 @@ export function createGameScreen(options: GameScreenOptions): HTMLElement {
   );
   container.appendChild(answerOptions);
 
-  // If answered, reveal the answer and show feedback + next button
+  // Bottom section - always present to prevent layout shift
+  const bottomSection = document.createElement('div');
+  bottomSection.className = 'game__bottom';
+
   if (isAnswered) {
     revealAnswer(answerOptions, round.correctLanguage, answer.selectedLanguage);
 
@@ -62,21 +65,23 @@ export function createGameScreen(options: GameScreenOptions): HTMLElement {
     feedback.innerHTML = answer.correct
       ? `✓ Correct!`
       : `✗ It was ${LANGUAGE_NAMES[round.correctLanguage]}`;
-    container.appendChild(feedback);
+    bottomSection.appendChild(feedback);
 
-    // Auto-hide feedback after delay
-    setTimeout(() => {
-      feedback.style.opacity = '0';
-      feedback.style.transition = 'opacity 0.3s';
-    }, 1500);
-
+    // Next button
     const nextButton = document.createElement('button');
     nextButton.className = 'next-button';
     nextButton.textContent =
       state.currentRound >= 4 ? 'See Results' : 'Next Round';
     nextButton.addEventListener('click', onNext);
-    container.appendChild(nextButton);
+    bottomSection.appendChild(nextButton);
+  } else {
+    // Placeholder to reserve space
+    const placeholder = document.createElement('div');
+    placeholder.className = 'game__bottom-placeholder';
+    bottomSection.appendChild(placeholder);
   }
+
+  container.appendChild(bottomSection);
 
   return container;
 }
