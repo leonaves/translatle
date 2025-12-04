@@ -14,11 +14,12 @@ export async function shareResults(
   const minutes = Math.floor(totalTime / 60000);
   const seconds = Math.floor((totalTime % 60000) / 1000);
 
+  const url = window.location.origin;
   const text = `Translatle Day ${dayNumber}
 ${score}/5 in ${minutes}:${seconds.toString().padStart(2, '0')}
 ${grid}
 
-https://translatle.pages.dev`;
+${url}`;
 
   // Try Web Share API first (mobile)
   if (navigator.share && isMobile()) {
