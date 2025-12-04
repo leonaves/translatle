@@ -1,0 +1,38 @@
+{
+  "name": "translatle",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A daily emoji translation guessing game by Lokalise",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src scripts",
+    "lint:fix": "eslint src scripts --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "build:emojis": "tsx scripts/build-emoji-list.ts",
+    "review:emojis": "tsx scripts/review-emojis.ts",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name=translatle"
+  },
+  "keywords": ["emoji", "game", "translation", "lokalise"],
+  "author": "leonaves",
+  "license": "MIT",
+  "dependencies": {
+    "emojibase-data": "^17.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.5.0",
+    "prettier": "^3.7.4",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1",
+    "vite": "^7.2.6",
+    "wrangler": "^4.52.1"
+  }
+}
